@@ -1,0 +1,87 @@
+
+<!-- START TABLE -->
+<div class="simplebox grid740">
+	<div class="titleh">
+		<h3>Participants List</h3>
+		
+		<div class="shortcuts-icons">
+			<form method="post" name="event" action="">
+				<label>
+				Event name: 
+				
+				<select name="event_id" onchange="document.event.submit();" id="selectevent" class="uniform">
+		
+				<?php
+				if(is_array($this->Events)){
+				 foreach ( $this->Events as $key => $val ) { ?>
+					<option value="<?php echo $val['id'] ?>"  <?php echo isset($this->event_id)  ==true && $this->event_id == $val['id'] ? 'selected="selected"':'' ?>><?php echo $val['name'] ?></option>
+				<?php }}?>
+	            </select>
+	            </label>
+        	</form>
+		</div>
+	</div>
+	<!-- Start Data Tables Initialisation code -->
+	<script type="text/javascript" charset="utf-8">
+								$(document).ready(function() {
+								oTable = $('#example').dataTable({
+										"bJQueryUI": true,
+										"sPaginationType": "full_numbers"
+									});
+								} );
+							</script>
+	<!-- End Data Tables Initialisation code -->
+
+
+	<table cellpadding="0" cellspacing="0" border="0"
+		class="display data-table" id="example">
+
+		<thead>
+			<tr>
+				<th>ID Participant</th>
+				<th>Expenses Description</th>
+				<th>User</th>
+				<th>Quantity</th>	
+				<th>Created Date</th>
+				<th></th>
+			</tr>
+		</thead>
+
+		<tbody>
+
+			
+<?php
+if(is_array($this->Items)){
+foreach ( $this->Items as $key => $val ) {
+	
+	?>
+				
+				<tr class="gradeA">
+				<td><?php echo $val['id'];?></td>
+				<td><?php echo $val['des_ex'];?></td>
+				<td><?php echo $val['user_name'];?></td>
+				<td class="center"><?php echo $val['quantity'];?></td>
+				<td class="center"><?php echo $val['created'];?></td>
+				<td class="center">Edit</td>
+			</tr>
+				
+				
+				
+				<?php
+}
+}
+?>
+			
+
+
+		</tbody>
+	</table>
+
+
+
+
+</div>
+<!-- END TABLE -->
+
+
+

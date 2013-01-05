@@ -1,0 +1,97 @@
+<?php //var_dump($this->Items);?>
+
+<!-- START TABLE -->
+<div class="simplebox grid740">
+	<div class="titleh">
+		<h3>Checkout Details</h3>
+		<div class="shortcuts-icons"></div>
+	</div>
+
+	<div class="grid740-left">
+
+		<!-- start statistics codes -->
+		<div class="simplebox">
+			
+			<div class="body">
+			  
+				<?php if(is_array($this->Checkout)):?>
+				<ul class="statistics">
+					<li> Checkout ID:
+						<p>
+							<span class="green"><b><?php echo $this->Checkout['id'];?></b></span>
+						</p>
+					</li>
+					<li>Event Name:
+						<p>
+							<span class="red"><b><?php echo $this->Checkout['event_name'];?></b></span>
+						</p>
+					</li>
+	
+
+					<li>Date:
+						<p><?php echo date ( 'd-M-Y', strtotime ( $this->Checkout['date'] ) )  ;?></p>
+					</li>
+				</ul>
+				<?php  endif;?>
+			</div>
+		</div>
+		<!-- end statistics codes -->
+
+
+	</div>
+	<div class="clear" style=" margin-bottom: 5px;"></div>
+	<p></p>
+	<div class="simplebox grid740">
+		<div class="titleh">
+			<h3>Details</h3>
+		</div>
+		<div class="body" style="padding: 5px;">
+
+			<table cellpadding="0" cellspacing="0" border="0"
+				class="display tablesorter" id="example">
+
+				<thead>
+					<tr>
+						<th>User</th>
+						<th>Status</th>
+						<th>User</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+
+				<tbody>
+
+			
+<?php
+if (is_array ( $this->Items )) {
+	foreach ( $this->Items as $key => $val ) {
+		
+		?>
+				
+				<?php foreach ($val['detail'] as $k =>$item):  ?>
+				<tr class="gradeA">
+						<td><?php echo $val['user']['user_name'];?></td>
+						<td><?php echo $item['status'] ==0 ?'Receive':'Pay';?></td>
+						<td class="center"><?php echo $item['user_refer'];?></td>
+						<td class="center">$ <?php echo $item['amount'];?></td>
+					</tr>
+				
+				<?php  endforeach;?>
+				
+				<?php
+	}
+}
+?>
+			
+
+
+		</tbody>
+			</table>
+
+
+
+		</div>
+
+	</div>
+
+</div>
