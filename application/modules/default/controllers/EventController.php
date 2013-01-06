@@ -86,6 +86,7 @@ class EventController extends Zend_Controller_Action {
 		$data = array (
 				'name' => $name,
 				'user_id' => $user_id,
+				'owner_id' => $user_id,
 				'description' => $description,
 				'currency' => $currency_id,
 				'created' => date ( 'Y-m-d h:i:s' ) 

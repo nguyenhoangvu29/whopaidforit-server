@@ -63,13 +63,13 @@ class ExpensesController extends Zend_Controller_Action {
 							'total' => $totalquan == 0? 0 :($row->amount / $totalquan ) * $rows->quantity
 							);
 					$arr[]=$arrr;
-					
 				}
 				
 				$result = array (
 						'id' => $row->id,
 						'event_id' => $row->event_id,
 						'user_id' => $row->user_id,
+						'owner_id' => $row->owner_id,
 						'user_name' => $row->user_name,
 						'expenses_type_id' => $row->expenses_type_id,
 						'check_out_id' => $row->check_out_id,
@@ -249,7 +249,8 @@ class ExpensesController extends Zend_Controller_Action {
 					'description' => $description,
 					'settled' => $settled,
 					'date_expenses' => $date_expenses,
-					'user_id' => $paid_id 
+					'user_id' => $paid_id,
+					'owner_id' => $user_id 
 			);
 			
 			$result = $expenses->saveExpenses ( $data, $participants, $id, $user_id );
@@ -262,6 +263,8 @@ class ExpensesController extends Zend_Controller_Action {
 	public function removeAction() {
 		$events = new Default_Model_Expenses();
 		$id = $this->_request->getParam ( 'id' );
+		$db = Zend_Db_Table::getDefaultAdapter();
+		$db->delete('participants',"expenses_id = $id");
 		$return = $events->delete ( 'id=' . $id );
 		echo $return;
 	}

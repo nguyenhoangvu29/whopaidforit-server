@@ -23,6 +23,7 @@ class Default_Model_User extends Zend_Db_Table{
 		unset($data['user_id']);
 		unset($data['event_id']);
 		if($id ==0){
+			$data['owner_id'] = $user_id;
 			$id = $this->insert($data);
 			$datas['user_id'] = $id;
 			$db = new Zend_Db_Table(array('name' => 'user_event'));
@@ -34,7 +35,6 @@ class Default_Model_User extends Zend_Db_Table{
 		}else{
 			if ($this->getUser($id)) {
 				$this->update($data, 'id='.$id );
-			
 			
 				//log event here
 				$arrlog = array(

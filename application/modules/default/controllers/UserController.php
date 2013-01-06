@@ -70,6 +70,7 @@ class UserController extends Zend_Controller_Action {
 					'name' => $row->name,
 					'mail_address' => $row->mail_address,
 					'event_id' => $row->event_id,
+					'active' => $row->active,
 					'created' => date ( 'd-m-Y', strtotime ( $row->created ) ) 
 			);
 		}
@@ -233,7 +234,7 @@ class UserController extends Zend_Controller_Action {
 							'mail_address' => $result [0]->mail_address 
 					);
 					$obj ['password'] = md5 ( $password );
-					// $model_user->saveUser($obj,$user_id);
+					$model_user->saveUser($obj,$user_id);
 					// count number event of that user
 					$select = $model_event->select ( Zend_Db_Table::SELECT_WITH_FROM_PART, array (
 							'id' 

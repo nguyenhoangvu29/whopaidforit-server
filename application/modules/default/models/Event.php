@@ -28,7 +28,7 @@ class Default_Model_Event extends Zend_Db_Table{
 			$id = $this->insert($data);
             //insert user_even
             $datas['event_id'] = $id;
-            
+            $datas['active'] = 1;
             $db = new Zend_Db_Table(array('name' => 'user_event'));
             $db->insert($datas);
             
@@ -88,8 +88,8 @@ class Default_Model_Event extends Zend_Db_Table{
 		if ($id != 0) {
 		    //insert user_even
             $datas['event_id'] = $id;
-            $db = new Zend_Db_Table(array('name' => 'event'));
-			$db->delete('event',"id = $id");
+            $db = Zend_Db_Table::getDefaultAdapter();
+            $db->delete('event',"id = $id");
          
             //add create to log table event 
             $arrlog = array(
