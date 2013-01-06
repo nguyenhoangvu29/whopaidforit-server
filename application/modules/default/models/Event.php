@@ -85,43 +85,28 @@ class Default_Model_Event extends Zend_Db_Table{
 		$datas =array();
 		$datas['user_id'] = $data['user_id'];
 		
-		//unset($data['user_id']);
-		//unset($data['created']);
-		//unset($data['currency']);
-		
 		if ($id != 0) {
-			//$id = $this->insert($data);
-            //insert user_even
+		    //insert user_even
             $datas['event_id'] = $id;
             $db = new Zend_Db_Table(array('name' => 'event'));
-			$arr = array('publish'=>'1');
-            $db->update($arr,"id = $id");
+			$db->delete('event',"id = $id");
          
             //add create to log table event 
             $arrlog = array(
             		'event_id' => $id,
             		'changed_by_id' => $datas['user_id'],
             		'create_date' => date('Y-m-d h:i:s'),
-            		'log_type_id' => 3,  //created
+            		'log_type_id' => 3,  //Delete
             		);
       
             $dblog = new Zend_Db_Table(array('name' => 'log_event'));
             $dblog->insert($arrlog);
-            
-          
-            
-            $result['event_id'] = $id;
-            $result['event_name'] = '';
+           
             $result['success'] = 1;
             
         } else {
-            if ($this->getEvent($id)) {
-                $this->update($data, 'id='.$id );
-                $result['event_id'] = $id;
-            } else {
-            	$result['message'] = 'Not exsits event';
-                throw new Exception('Form id does not exist');
-            }
+            $result['success'] = 1;
+            $result['message'] = 'Not exsits event';
         }
         return $result;
 	}

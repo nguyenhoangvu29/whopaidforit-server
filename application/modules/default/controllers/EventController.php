@@ -42,11 +42,15 @@ class EventController extends Zend_Controller_Action {
 		$table = new Default_Model_Event (); // user_pieces là class extends
 		                            // Zend_Db_Table_Abstract
 		$select = $table->select ( Zend_Db_Table::SELECT_WITH_FROM_PART, array () );
-		$select->setIntegrityCheck ( false )->join ( 'user_event', 'event.id = user_event.event_id', array (
-				' IFNULL((select sum(amount) from expenses n where n.event_id = user_event.event_id group by event_id),0) as  totalamount',
-				' IFNULL((select count(ue.user_id) from user_event ue where ue.event_id = user_event.event_id),0) as  totalpeople,
-				 (select cu.name from currency  cu where cu.id = event.currency ) as curency_name ' 
-		) )->join ( 'users', 'user_event.user_id = users.id', array () )->where ( 'event.publish = 0 and users.id = ?', $user_id );
+		$select->setIntegrityCheck ( false )->join ( 'user_event', 'event.id = user_event.event_id', 
+					array (
+					' IFNULL((select sum(amount) from expenses n where n.event_id = user_event.event_id group by event_id),0) as  totalamount',
+					' IFNULL((select count(ue.user_id) from user_event ue where ue.event_id = user_event.event_id),0) as  totalpeople,
+					 (select cu.name from currency  cu where cu.id = event.currency ) as curency_name, user_event.active ' 
+					) 
+				)
+				->join ( 'users', 'user_event.user_id = users.id', array () )
+				->where ( 'event.publish = 0 and users.id = ?', $user_id );
 		// print_r($select->__toString());die;
 		$rows = $table->fetchAll ( $select );
 		// echo count($rows);exit;
@@ -56,6 +60,8 @@ class EventController extends Zend_Controller_Action {
 			$result [] = array (
 					'id' => $row->id,
 					'name' => $row->name,
+					'active' => $row->active,
+					'owner_id' => $row->owner_id,
 					'curency_name' => '',
 					'currency' => $row->currency,
 					'totalamount' => $row->totalamount,
